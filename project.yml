@@ -1,0 +1,34 @@
+name: FredCam
+options:
+  bundleIdPrefix: com.bojordan
+  deploymentTarget:
+    iOS: "16.0"
+  xcodeVersion: "16.0"
+
+packages:
+  KSPlayer:
+    url: https://github.com/kingslay/KSPlayer.git
+    from: "2.2.0"
+
+targets:
+  FredCam:
+    type: application
+    platform: iOS
+    sources:
+      - FredCam
+    settings:
+      base:
+        INFOPLIST_FILE: FredCam/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.bojordan.FredCam
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        DEVELOPMENT_TEAM: ""
+        SUPPORTS_MACCATALYST: false
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SWIFT_VERSION: "5.9"
+        DISABLE_MANUAL_TARGET_ORDER_BUILD_WARNING: "YES"
+      debug:
+        VALIDATE_EMBEDDED_BINARY_BUNDLE_IDENTIFIER: "NO"
+    dependencies:
+      - package: KSPlayer
+        product: KSPlayer
