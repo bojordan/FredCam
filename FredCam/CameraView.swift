@@ -3,11 +3,11 @@ import KSPlayer
 
 struct CameraView: UIViewRepresentable {
     let url: URL
-    @Binding var statusText: String
+    @Binding var streamState: StreamState
     var onPipReady: ((@escaping () -> Void) -> Void)?
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(statusText: $statusText)
+        Coordinator(streamState: $streamState)
     }
 
     func makeUIView(context: Context) -> UIView {
@@ -29,7 +29,6 @@ struct CameraView: UIViewRepresentable {
         layer.play()
 
         DispatchQueue.main.async {
-            self.statusText = "Connecting..."
             self.onPipReady?({
                 layer.isPipActive.toggle()
             })
@@ -39,7 +38,6 @@ struct CameraView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: UIView, context: Context) {
-        // Attach the player's view to our container if not already done
         if let playerLayer = context.coordinator.playerLayer,
            let playerView = playerLayer.player.view,
            playerView.superview == nil {
@@ -56,34 +54,26 @@ struct CameraView: UIViewRepresentable {
 
     class Coordinator: NSObject, KSPlayerLayerDelegate {
         var playerLayer: KSPlayerLayer?
-        var statusText: Binding<String>
+        var streamState: Binding<StreamState>
 
-        init(statusText: Binding<String>) {
-            self.statusText = statusText
+        init(streamState: Binding<StreamState>) {
+            self.streamState = streamState
         }
 
         func player(layer: KSPlayerLayer, state: KSPlayerState) {
             DispatchQueue.main.async {
                 switch state {
-                case .preparing:
-                    self.statusText.wrappedValue = "Preparing..."
-                    print("[FredCam] Preparing")
-                case .readyToPlay:
-                    self.statusText.wrappedValue = "Buffering..."
-                    print("[FredCam] Ready to play")
-                case .buffering:
-                    self.statusText.wrappedValue = "Buffering..."
-                    print("[FredCam] Buffering")
+                case .preparing, .readyToPlay, .buffering:
+                    if case .connecting = self.streamState.wrappedValue { } // stay in connecting
+                    else { self.streamState.wrappedValue = .connecting }
                 case .bufferFinished:
-                    self.statusText.wrappedValue = ""
-                    print("[FredCam] Playing")
-                case .paused:
-                    self.statusText.wrappedValue = "Paused"
-                case .playedToTheEnd:
-                    self.statusText.wrappedValue = "Stream ended"
+                    withAnimation(.easeIn(duration: 0.5)) {
+                        self.streamState.wrappedValue = .live
+                    }
                 case .error:
-                    self.statusText.wrappedValue = "Connection error"
-                    print("[FredCam] Error")
+                    withAnimation {
+                        self.streamState.wrappedValue = .error("Could not connect to printer camera.")
+                    }
                 default:
                     break
                 }
@@ -93,10 +83,10 @@ struct CameraView: UIViewRepresentable {
         func player(layer: KSPlayerLayer, currentTime: TimeInterval, totalTime: TimeInterval) {}
 
         func player(layer: KSPlayerLayer, finish error: Error?) {
-            if let error = error {
-                print("[FredCam] Error: \(error.localizedDescription)")
-                DispatchQueue.main.async {
-                    self.statusText.wrappedValue = "Error: \(error.localizedDescription)"
+            guard let error = error else { return }
+            DispatchQueue.main.async {
+                withAnimation {
+                    self.streamState.wrappedValue = .error(error.localizedDescription)
                 }
             }
         }

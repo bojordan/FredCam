@@ -2,7 +2,7 @@ name: FredCam
 options:
   bundleIdPrefix: com.bojordan
   deploymentTarget:
-    iOS: "16.0"
+    iOS: "26.0"
   xcodeVersion: "16.0"
 
 packages:

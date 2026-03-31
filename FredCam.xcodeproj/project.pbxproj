@@ -24,7 +24,7 @@
 		A6BAED0C477C47E3C22ADA6D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		D0731396F86D7362A5BD957D /* PrinterSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterSettings.swift; sourceTree = "<group>"; };
 		D6B82D54B89809A31797DAC6 /* FredCamApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FredCamApp.swift; sourceTree = "<group>"; };
-		DFF4C29EF22E731D2FD5871E /* FredCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FredCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DFF4C29EF22E731D2FD5871E /* FredCam.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FredCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F80A910A3965DFE7DE98A7FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		FB8FB61756E1881B37369250 /* TLSProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLSProxy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,6 +103,11 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					10B515E9B9924D4A3DCFC6EF = {
+						DevelopmentTeam = "";
+					};
+				};
 			};
 			buildConfigurationList = 6E85C959CDC337C4556E3662 /* Build configuration list for PBXProject "FredCam" */;
 			developmentRegion = en;
@@ -205,7 +210,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -262,7 +267,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -279,7 +284,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UBPY2AEGJ2;
+				DEVELOPMENT_TEAM = "";
 				DISABLE_MANUAL_TARGET_ORDER_BUILD_WARNING = YES;
 				INFOPLIST_FILE = FredCam/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -301,7 +306,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UBPY2AEGJ2;
+				DEVELOPMENT_TEAM = "";
 				DISABLE_MANUAL_TARGET_ORDER_BUILD_WARNING = YES;
 				INFOPLIST_FILE = FredCam/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
