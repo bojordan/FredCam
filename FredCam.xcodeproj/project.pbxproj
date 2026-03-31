@@ -160,7 +160,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "find \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\" -name \"*.framework\" -maxdepth 1 | while read framework; do\n  plist=\"$framework/Info.plist\"\n  if [ -f \"$plist\" ]; then\n    bundle_id=$(/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$plist\" 2>/dev/null)\n    fixed_id=$(echo \"$bundle_id\" | tr '_' '-')\n    if [ \"$bundle_id\" != \"$fixed_id\" ]; then\n      /usr/libexec/PlistBuddy -c \"Set :CFBundleIdentifier $fixed_id\" \"$plist\"\n    fi\n  fi\ndone\n";
+			shellScript = "find \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\" -name \"*.framework\" -maxdepth 1 | while read framework; do\n  plist=\"$framework/Info.plist\"\n  if [ -f \"$plist\" ]; then\n    bundle_id=$(/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$plist\" 2>/dev/null)\n    fixed_id=$(echo \"$bundle_id\" | tr '_' '-')\n    if [ \"$bundle_id\" != \"$fixed_id\" ]; then\n      /usr/libexec/PlistBuddy -c \"Set :CFBundleIdentifier $fixed_id\" \"$plist\"\n      if [ \"${CODE_SIGNING_ALLOWED}\" = \"YES\" ] && [ -n \"${EXPANDED_CODE_SIGN_IDENTITY}\" ]; then\n        codesign --force --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" \"$framework\"\n      fi\n    fi\n  fi\ndone\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

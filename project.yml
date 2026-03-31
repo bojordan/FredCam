@@ -42,6 +42,9 @@ targets:
               fixed_id=$(echo "$bundle_id" | tr '_' '-')
               if [ "$bundle_id" != "$fixed_id" ]; then
                 /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier $fixed_id" "$plist"
+                if [ "${CODE_SIGNING_ALLOWED}" = "YES" ] && [ -n "${EXPANDED_CODE_SIGN_IDENTITY}" ]; then
+                  codesign --force --sign "${EXPANDED_CODE_SIGN_IDENTITY}" "$framework"
+                fi
               fi
             fi
           done
