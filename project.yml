@@ -32,3 +32,18 @@ targets:
     dependencies:
       - package: KSPlayer
         product: KSPlayer
+    postBuildScripts:
+      - name: Fix Embedded Framework Bundle Identifiers
+        script: |
+          find "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}" -name "*.framework" -maxdepth 1 | while read framework; do
+            plist="$framework/Info.plist"
+            if [ -f "$plist" ]; then
+              bundle_id=$(/usr/libexec/PlistBuddy -c "Print CFBundleIdentifier" "$plist" 2>/dev/null)
+              fixed_id=$(echo "$bundle_id" | tr '_' '-')
+              if [ "$bundle_id" != "$fixed_id" ]; then
+                /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier $fixed_id" "$plist"
+              fi
+            fi
+          done
+        runOnlyWhenInstalling: false
+        showEnvVars: false

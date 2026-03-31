@@ -82,6 +82,7 @@
 				45E6A9A665896C703745F004 /* Sources */,
 				18FABEAAE671C1D83E546CC8 /* Resources */,
 				D5AFB1004492B60B88DE2A9D /* Frameworks */,
+				4B6FFC89E2523FA3412FF8E6 /* Fix Embedded Framework Bundle Identifiers */,
 			);
 			buildRules = (
 			);
@@ -141,6 +142,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4B6FFC89E2523FA3412FF8E6 /* Fix Embedded Framework Bundle Identifiers */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Fix Embedded Framework Bundle Identifiers";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "find \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\" -name \"*.framework\" -maxdepth 1 | while read framework; do\n  plist=\"$framework/Info.plist\"\n  if [ -f \"$plist\" ]; then\n    bundle_id=$(/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$plist\" 2>/dev/null)\n    fixed_id=$(echo \"$bundle_id\" | tr '_' '-')\n    if [ \"$bundle_id\" != \"$fixed_id\" ]; then\n      /usr/libexec/PlistBuddy -c \"Set :CFBundleIdentifier $fixed_id\" \"$plist\"\n    fi\n  fi\ndone\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		45E6A9A665896C703745F004 /* Sources */ = {
